@@ -1,0 +1,50 @@
+@using Blazor.Shared
+
+@if (cartItemModel == null)
+{
+    <Spinner />
+}
+else
+{
+    <style>
+        .cart-item {
+            width: auto;
+            height: auto;
+            background: #f3f3f3;
+            padding: 20px;
+            border: 2px solid #808080;
+        }
+
+            .cart-item input {
+                width: 60px;
+            }
+    </style>
+
+
+    var buttonText = IsInCart ? "Update" : "Add";
+    <div class="cart-item">
+        <div>@Product.Title</div>
+        <div>$@Product.Price</div>
+        <div>@Product.Quantity left</div>
+        <div>
+            <EditForm Model="@cartItemModel" OnSubmit="@OnClick">
+                <InputNumber min="0" @bind-Value="@cartItemModel.Quantity" />
+                <button type="submit">@buttonText</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ProductModel Product { get; set; }
+    [Parameter]
+    public CartItemModel cartItemModel { get; set; }
+
+    [Parameter]
+    public bool IsInCart { get; set; }
+
+    [Parameter]
+    public Action OnClick { get; set; }
+
+}
